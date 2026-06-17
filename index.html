@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>夜行ラジオ — J-Pop 튜너</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1B3A;
+    --paper:#FAF3E7;
+    --pink:#FF6F91;
+    --purple:#3D2C5F;
+    --mustard:#F4B942;
+    --paper-line: rgba(27,27,58,0.08);
+    --shadow-hard: 6px 6px 0 var(--ink);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(255,111,145,0.16), transparent 40%),
+      radial-gradient(circle at 92% 88%, rgba(61,44,95,0.14), transparent 45%);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  .display{font-family:'Zen Kaku Gothic New', sans-serif;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* subtle paper grain */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(27,27,58,0.012) 3px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:48px 24px 100px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ===== HEADER : Radio face ===== */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:46px;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .station{
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .station .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    color:var(--purple);
+    text-transform:uppercase;
+  }
+  .station h1{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-weight:900;
+    font-size:clamp(34px, 5.4vw, 56px);
+    line-height:1.02;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .station h1 .accent{ color:var(--pink); }
+  .station p{
+    margin:2px 0 0;
+    color:rgba(27,27,58,0.62);
+    font-size:14.5px;
+    max-width:420px;
+    line-height:1.55;
+  }
+
+  .freq-box{
+    border:2px solid var(--ink);
+    background:#fff;
+    box-shadow:var(--shadow-hard);
+    padding:14px 18px;
+    text-align:right;
+    min-width:150px;
+  }
+  .freq-box .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    color:rgba(27,27,58,0.5);
+  }
+  .freq-box .freq{
+    font-family:'JetBrains Mono', monospace;
+    font-size:26px;
+    font-weight:500;
+    color:var(--pink);
+    letter-spacing:0.02em;
+  }
+
+  /* ===== TUNER PANEL ===== */
+  .panel{
+    border:2px solid var(--ink);
+    background:#fff;
+    box-shadow: var(--shadow-hard);
+    padding:32px;
+    margin-bottom:40px;
+  }
+  .panel-head{
+    display:flex; align-items:baseline; gap:10px; margin-bottom:22px;
+    border-bottom:2px solid var(--paper-line);
+    padding-bottom:16px;
+  }
+  .panel-head .num{
+    font-family:'JetBrains Mono'; font-size:12px; color:var(--pink); font-weight:700;
+  }
+  .panel-head h2{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:19px; font-weight:700; margin:0;
+  }
+  .panel-head .sub{
+    margin-left:auto;
+    font-size:12px;
+    color:rgba(27,27,58,0.45);
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  .dial-group{ margin-bottom:26px; }
+  .dial-group:last-child{ margin-bottom:0; }
+  .dial-group-label{
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:rgba(27,27,58,0.5);
+    margin-bottom:11px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .tags{
+    display:flex; flex-wrap:wrap; gap:9px;
+  }
+  .tag-btn{
+    appearance:none; border:2px solid var(--ink);
+    background:#fff;
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight:500;
+    font-size:13.5px;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:transform .12s ease, background .12s ease, color .12s ease;
+    position:relative;
+  }
+  .tag-btn:hover{ transform:translate(-2px,-2px); }
+  .tag-btn:active{ transform:translate(0,0); }
+  .tag-btn.active{
+    background:var(--ink);
+    color:var(--paper);
+    transform:translate(-2px,-2px);
+    box-shadow:3px 3px 0 var(--pink);
+  }
+  .tag-btn .dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    margin-right:7px; background:currentColor; opacity:0.55;
+    vertical-align:middle;
+  }
+
+  .panel-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:28px; padding-top:22px; border-top:2px solid var(--paper-line);
+    gap:16px; flex-wrap:wrap;
+  }
+  .selected-readout{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:rgba(27,27,58,0.55);
+    min-height:16px;
+  }
+  .selected-readout b{ color:var(--purple); font-weight:500; }
+
+  .tune-btn{
+    appearance:none; border:2px solid var(--ink);
+    background:var(--pink);
+    color:var(--ink);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    padding:13px 28px;
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .12s ease, box-shadow .12s ease;
+    white-space:nowrap;
+  }
+  .tune-btn:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
+  .tune-btn:active{ transform:translate(1px,1px); box-shadow:2px 2px 0 var(--ink); }
+
+  /* ===== RESULTS ===== */
+  #results-section{ display:none; }
+  #results-section.show{ display:block; }
+
+  .results-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:20px; flex-wrap:wrap;
+  }
+  .results-head h2{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:20px; margin:0; font-weight:700;
+  }
+  .results-head .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; color:rgba(27,27,58,0.5);
+  }
+
+  .cassette-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    gap:18px;
+  }
+
+  .cassette{
+    border:2px solid var(--ink);
+    background:#fff;
+    box-shadow:5px 5px 0 var(--ink);
+    padding:0;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(14px);
+    animation:riseIn .5s ease forwards;
+  }
+  @keyframes riseIn{ to{ opacity:1; transform:translateY(0);} }
+
+  .cassette-top{
+    padding:18px 18px 14px;
+    border-bottom:2px solid var(--ink);
+  }
+  .cassette-top .year{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:rgba(27,27,58,0.5);
+    margin-bottom:6px;
+  }
+  .cassette-top .title{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    line-height:1.25;
+    margin-bottom:4px;
+  }
+  .cassette-top .artist{
+    font-size:13.5px;
+    color:rgba(27,27,58,0.65);
+  }
+
+  .cassette-body{
+    padding:14px 18px 18px;
+  }
+  .reel-row{
+    display:flex; align-items:center; justify-content:center; gap:18px;
+    margin-bottom:14px;
+  }
+  .reel{
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--ink);
+    position:relative;
+    background:
+      repeating-conic-gradient(var(--ink) 0deg 6deg, transparent 6deg 24deg);
+    background-size:60% 60%;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .reel::after{
+    content:"";
+    position:absolute; inset:42%;
+    background:var(--paper); border-radius:50%; border:1.5px solid var(--ink);
+  }
+  .cassette.spin .reel{ animation:spin 2.8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .mood-line{
+    font-size:13px;
+    color:var(--purple);
+    text-align:center;
+    line-height:1.5;
+    margin-bottom:14px;
+    min-height:38px;
+  }
+
+  .cassette-tags{
+    display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  }
+  .mini-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    border:1.5px solid var(--ink);
+    padding:3px 8px;
+    color:rgba(27,27,58,0.7);
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:50px 20px;
+    border:2px dashed var(--ink);
+  }
+  .empty-state .face{ font-size:32px; margin-bottom:12px; }
+  .empty-state p{
+    font-size:14px; color:rgba(27,27,58,0.6); margin:0;
+  }
+
+  /* ===== VISUALIZER bar (signature ambient motion) ===== */
+  .vis-bar{
+    display:flex; align-items:flex-end; gap:3px; height:22px; margin:0 auto 28px;
+    width:fit-content;
+  }
+  .vis-bar span{
+    width:4px; background:var(--pink); display:block;
+    animation:bounce 1.1s ease-in-out infinite;
+  }
+  .vis-bar span:nth-child(1){ height:8px; animation-delay:0s; }
+  .vis-bar span:nth-child(2){ height:16px; animation-delay:.15s; background:var(--mustard); }
+  .vis-bar span:nth-child(3){ height:22px; animation-delay:.3s; background:var(--purple); }
+  .vis-bar span:nth-child(4){ height:12px; animation-delay:.45s; background:var(--mustard); }
+  .vis-bar span:nth-child(5){ height:18px; animation-delay:.6s; }
+  @keyframes bounce{ 0%,100%{ transform:scaleY(0.4); } 50%{ transform:scaleY(1); } }
+
+  footer{
+    text-align:center;
+    margin-top:60px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:rgba(27,27,58,0.4);
+    letter-spacing:0.04em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cassette, .reel, .vis-bar span { animation:none !important; }
+  }
+
+  @media (max-width:560px){
+    .panel{ padding:22px; }
+    .freq-box{ text-align:left; }
+    .panel-foot{ flex-direction:column; align-items:stretch; }
+    .tune-btn{ width:100%; }
+  }
+
+  /* focus visibility */
+  button:focus-visible{
+    outline:3px solid var(--purple);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="station">
+      <span class="eyebrow">深夜放送 · LATE NIGHT BROADCAST</span>
+      <h1>夜行<span class="accent">ラジオ</span></h1>
+      <p>당신의 기분을 주파수에 맞춰보세요. 다이얼을 돌리면 그 순간에 어울리는 J-pop을 틀어드립니다.</p>
+    </div>
+    <div class="freq-box">
+      <div class="label">NOW TUNING</div>
+      <div class="freq" id="freqDisplay">88.2</div>
+    </div>
+  </header>
+
+  <div class="panel">
+    <div class="panel-head">
+      <span class="num">CH.1</span>
+      <h2>다이얼 맞추기</h2>
+      <span class="sub">원하는 만큼 선택</span>
+    </div>
+
+    <div class="dial-group">
+      <div class="dial-group-label">장르 — GENRE</div>
+      <div class="tags" id="genreTags"></div>
+    </div>
+
+    <div class="dial-group">
+      <div class="dial-group-label">분위기 — MOOD</div>
+      <div class="tags" id="moodTags"></div>
+    </div>
+
+    <div class="panel-foot">
+      <div class="selected-readout" id="selectedReadout">선택된 채널 없음 — 전체 방송에서 추천됩니다</div>
+      <button class="tune-btn" id="tuneBtn">📻 주파수 맞추기</button>
+    </div>
+  </div>
+
+  <section id="results-section">
+    <div class="vis-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="results-head">
+      <h2>오늘의 방송 목록</h2>
+      <span class="count" id="resultCount"></span>
+    </div>
+    <div class="cassette-grid" id="resultsGrid"></div>
+  </section>
+
+  <footer>夜行ラジオ — 모든 음원은 각 아티스트와 음반사에 권리가 있습니다</footer>
+</div>
+
+<script>
+const GENRE_TAGS = [
+  {key:"citypop", label:"시티팝"},
+  {key:"ballad", label:"발라드"},
+  {key:"rock", label:"록"},
+  {key:"dance", label:"댄스"},
+  {key:"electronic", label:"일렉트로닉"},
+  {key:"acoustic", label:"어쿠스틱"},
+];
+const MOOD_TAGS = [
+  {key:"retro", label:"레트로"},
+  {key:"modern", label:"모던"},
+  {key:"chill", label:"잔잔함"},
+  {key:"energetic", label:"활기찬"},
+  {key:"emotional", label:"감성적"},
+];
+
+const selected = new Set();
+let songs = [];
+
+function renderTagGroup(container, tagList){
+  container.innerHTML = "";
+  tagList.forEach(t=>{
+    const btn = document.createElement("button");
+    btn.className = "tag-btn";
+    btn.type = "button";
+    btn.dataset.key = t.key;
+    btn.innerHTML = `<span class="dot"></span>${t.label}`;
+    btn.addEventListener("click", ()=>{
+      if(selected.has(t.key)){
+        selected.delete(t.key);
+        btn.classList.remove("active");
+      } else {
+        selected.add(t.key);
+        btn.classList.add("active");
+      }
+      updateReadout();
+    });
+    container.appendChild(btn);
+  });
+}
+
+function updateReadout(){
+  const readout = document.getElementById("selectedReadout");
+  const freqDisplay = document.getElementById("freqDisplay");
+  if(selected.size === 0){
+    readout.innerHTML = "선택된 채널 없음 — 전체 방송에서 추천됩니다";
+    freqDisplay.textContent = "88.2";
+  } else {
+    const allTags = [...GENRE_TAGS, ...MOOD_TAGS];
+    const labels = [...selected].map(k => allTags.find(t=>t.key===k)?.label).filter(Boolean);
+    readout.innerHTML = `선택됨: ${labels.map(l=>`<b>${l}</b>`).join(", ")}`;
+    const freq = (88.2 + selected.size * 1.7).toFixed(1);
+    freqDisplay.textContent = freq;
+  }
+}
+
+function loadSongs(){
+  return fetch("songs.json").then(r=>r.json());
+}
+
+function recommend(){
+  const resultsSection = document.getElementById("results-section");
+  const grid = document.getElementById("resultsGrid");
+  const countEl = document.getElementById("resultCount");
+  grid.innerHTML = "";
+
+  let matched;
+  if(selected.size === 0){
+    matched = [...songs];
+  } else {
+    matched = songs.filter(s => s.tags.some(t => selected.has(t)));
+    // 더 많은 조건과 겹치는 곡을 우선 정렬
+    matched.sort((a,b)=>{
+      const scoreA = a.tags.filter(t=>selected.has(t)).length;
+      const scoreB = b.tags.filter(t=>selected.has(t)).length;
+      return scoreB - scoreA;
+    });
+  }
+
+  // 셔플 + 최대 9곡
+  matched = matched.sort(()=>Math.random()-0.5).slice(0,9);
+
+  resultsSection.classList.add("show");
+  countEl.textContent = `${matched.length}곡 발견`;
+
+  if(matched.length === 0){
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1;">
+        <div class="face">📡</div>
+        <p>이 주파수에서는 신호가 잡히지 않아요. 다른 다이얼을 시도해보세요.</p>
+      </div>`;
+    return;
+  }
+
+  matched.forEach((song, i)=>{
+    const card = document.createElement("div");
+    card.className = "cassette spin";
+    card.style.animationDelay = `${i * 0.06}s`;
+    card.style.setProperty("--c", song.color);
+    card.innerHTML = `
+      <div class="cassette-top">
+        <div class="year">${song.year}</div>
+        <div class="title">${song.title}</div>
+        <div class="artist">${song.artist}</div>
+      </div>
+      <div class="cassette-body">
+        <div class="reel-row">
+          <div class="reel"></div>
+          <div class="reel"></div>
+        </div>
+        <div class="mood-line">"${song.mood}"</div>
+        <div class="cassette-tags">
+          ${song.tags.map(t=>`<span class="mini-tag">${t}</span>`).join("")}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  resultsSection.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+document.getElementById("tuneBtn").addEventListener("click", recommend);
+
+renderTagGroup(document.getElementById("genreTags"), GENRE_TAGS);
+renderTagGroup(document.getElementById("moodTags"), MOOD_TAGS);
+
+loadSongs().then(data=>{
+  songs = data;
+}).catch(()=>{
+  document.getElementById("resultsGrid").innerHTML = `
+    <div class="empty-state" style="grid-column:1/-1;">
+      <p>songs.json을 불러오지 못했어요. 같은 폴더에 파일이 있는지 확인해주세요.</p>
+    </div>`;
+});
+</script>
+
+</body>
+</html>

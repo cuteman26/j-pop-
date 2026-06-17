@@ -1,0 +1,234 @@
+[
+  {
+    "title": "Plastic Love",
+    "artist": "Mariya Takeuchi",
+    "year": 1984,
+    "tags": ["citypop", "retro", "chill"],
+    "mood": "노스탤직하고 우아한 밤 드라이브",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Stay With Me",
+    "artist": "Miki Matsubara",
+    "year": 1980,
+    "tags": ["citypop", "retro", "ballad"],
+    "mood": "비 오는 도시의 창문 너머 야경",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Lemon",
+    "artist": "Kenshi Yonezu",
+    "year": 2018,
+    "tags": ["ballad", "modern", "emotional"],
+    "mood": "잃어버린 사람을 그리워하는 잔잔한 슬픔",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Pretender",
+    "artist": "Official HIGE DANdism",
+    "year": 2019,
+    "tags": ["ballad", "modern", "rock"],
+    "mood": "이루어지지 않은 사랑에 대한 담담한 고백",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Marigold",
+    "artist": "Aimyon",
+    "year": 2018,
+    "tags": ["ballad", "acoustic", "modern"],
+    "mood": "여름 끝자락의 풋풋한 첫사랑",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Pink Spider",
+    "artist": "hide",
+    "year": 1996,
+    "tags": ["rock", "retro", "energetic"],
+    "mood": "강렬하고 신비로운 록 사운드",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Haruhikage",
+    "artist": "ZUTOMAYO",
+    "year": 2019,
+    "tags": ["rock", "modern", "energetic"],
+    "mood": "복잡한 감정을 폭발시키는 락 발라드",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Marigold no Sora",
+    "artist": "Yoasobi",
+    "year": 2021,
+    "tags": ["dance", "modern", "energetic"],
+    "mood": "청춘의 에너지가 가득한 스토리텔링 팝",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Idol",
+    "artist": "Yoasobi",
+    "year": 2023,
+    "tags": ["dance", "modern", "energetic"],
+    "mood": "화려하고 중독적인 아이돌 서사",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Mirai Nikki",
+    "artist": "Vaundy",
+    "year": 2020,
+    "tags": ["dance", "modern", "chill"],
+    "mood": "미래에 대한 설렘 가득한 그루브",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Hatenkou Yummy",
+    "artist": "Vaundy",
+    "year": 2022,
+    "tags": ["dance", "modern", "energetic"],
+    "mood": "자유분방하고 유쾌한 에너지",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Tsukinami",
+    "artist": "Suiyoubi no Campanella",
+    "year": 2017,
+    "tags": ["electronic", "modern", "chill"],
+    "mood": "독특하고 환상적인 일렉트로 비트",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Mosaic Kakuran",
+    "artist": "Daoko x Kenshi Yonezu",
+    "year": 2016,
+    "tags": ["electronic", "modern", "emotional"],
+    "mood": "혼란스러운 청춘의 모자이크",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Romance",
+    "artist": "Yorushika",
+    "year": 2021,
+    "tags": ["acoustic", "ballad", "chill"],
+    "mood": "조용한 새벽, 시 같은 가사",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Kaikai Kitan",
+    "artist": "Eve",
+    "year": 2020,
+    "tags": ["rock", "modern", "energetic"],
+    "mood": "긴박하고 드라마틱한 전개",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Uchiage Hanabi",
+    "artist": "DAOKO x Kenshi Yonezu",
+    "year": 2017,
+    "tags": ["ballad", "modern", "emotional"],
+    "mood": "여름밤 하늘에 터지는 불꽃놀이",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Cinderella Boy",
+    "artist": "Saucy Dog",
+    "year": 2021,
+    "tags": ["rock", "acoustic", "chill"],
+    "mood": "투박하지만 진솔한 청춘 록",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Lilac",
+    "artist": "Mrs. GREEN APPLE",
+    "year": 2022,
+    "tags": ["dance", "modern", "energetic"],
+    "mood": "보랏빛 봄날의 희망찬 발걸음",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Inferno",
+    "artist": "Mrs. GREEN APPLE",
+    "year": 2023,
+    "tags": ["rock", "modern", "energetic"],
+    "mood": "거대한 서사시 같은 웅장함",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Tokyo Night",
+    "artist": "Anri",
+    "year": 1983,
+    "tags": ["citypop", "retro", "chill"],
+    "mood": "도쿄의 화려한 밤거리 산책",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Kanashimi wo Yasashisa ni",
+    "artist": "Tatsuro Yamashita",
+    "year": 1982,
+    "tags": ["citypop", "retro", "ballad"],
+    "mood": "슬픔을 따뜻하게 감싸주는 멜로디",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Marigold (Acoustic)",
+    "artist": "Aimyon",
+    "year": 2019,
+    "tags": ["acoustic", "ballad", "chill"],
+    "mood": "기타 한 대로 풀어내는 잔잔한 위로",
+    "color": "#F4B942"
+  },
+  {
+    "title": "Subtitle",
+    "artist": "Official HIGE DANdism",
+    "year": 2023,
+    "tags": ["ballad", "modern", "emotional"],
+    "mood": "이별 뒤에도 남는 다정한 마음",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Душа (Dansing)",
+    "artist": "Tani Yuuki",
+    "year": 2021,
+    "tags": ["dance", "modern", "chill"],
+    "mood": "도시의 밤을 가볍게 걷는 기분",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "W/X/Y",
+    "artist": "Yorushika",
+    "year": 2020,
+    "tags": ["electronic", "modern", "emotional"],
+    "mood": "디지털 시대의 사랑과 그리움",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Sayonara Elegy",
+    "artist": "Masaki Suda",
+    "year": 2018,
+    "tags": ["ballad", "modern", "emotional"],
+    "mood": "이별을 시처럼 노래하는 우아함",
+    "color": "#3D2C5F"
+  },
+  {
+    "title": "Odo",
+    "artist": "Yoasobi",
+    "year": 2022,
+    "tags": ["dance", "modern", "energetic"],
+    "mood": "광기와 매혹이 뒤섞인 춤",
+    "color": "#1B1B3A"
+  },
+  {
+    "title": "Gurenge",
+    "artist": "LiSA",
+    "year": 2019,
+    "tags": ["rock", "energetic", "modern"],
+    "mood": "강렬한 결의가 느껴지는 앤썸",
+    "color": "#FF6F91"
+  },
+  {
+    "title": "Haru wo Tsugeru",
+    "artist": "Vaundy",
+    "year": 2021,
+    "tags": ["acoustic", "chill", "modern"],
+    "mood": "봄을 알리는 따뜻한 어쿠스틱",
+    "color": "#F4B942"
+  }
+]
